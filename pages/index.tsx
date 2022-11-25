@@ -87,10 +87,11 @@ const Home = ({ products }: { products: Product[] }) => {
                   Mid-Season Sale
                 </h1>
                 <div className="mt-4 sm:mt-6">
-                  <Link href="./products">
-                    <a className="inline-block rounded-md border border-transparent bg-indigo-600 py-3 px-8 font-medium text-white hover:bg-indigo-700">
-                      Shop Collection
-                    </a>
+                  <Link
+                    className="inline-block rounded-md border border-transparent bg-indigo-600 py-3 px-8 font-medium text-white hover:bg-indigo-700"
+                    href="./products"
+                  >
+                    Shop Collection
                   </Link>
                 </div>
               </div>
@@ -118,9 +119,12 @@ const Home = ({ products }: { products: Product[] }) => {
                   >
                     Trending Products
                   </h2>
-                  <a className="hidden text-sm font-medium text-indigo-600 hover:text-indigo-500 md:block">
+                  <Link
+                    href={'./products/trending'}
+                    className="hidden text-sm font-medium text-indigo-500 hover:text-indigo-500 md:block"
+                  >
                     Shop the collection<span aria-hidden="true"> &rarr;</span>
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-0 lg:gap-x-8">
@@ -135,10 +139,8 @@ const Home = ({ products }: { products: Product[] }) => {
                         </div>
                         <h3 className="mt-4 text-sm text-gray-700">
                           <Link href={`/products/${product.id}`}>
-                            <a>
-                              <span className="absolute inset-0" />
-                              {product.name}
-                            </a>
+                            <span className="absolute inset-0" />
+                            {product.name}
                           </Link>
                         </h3>
                         <p className="mt-1 text-sm font-medium text-gray-900">

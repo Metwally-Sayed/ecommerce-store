@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { getAllCollections } from 'redux/features/collectionsSlice'
-import axios from 'axios'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { Collection } from 'types'
+import axios from 'axios'
 
 const Collections = () => {
   const dispatch = useAppDispatch()
@@ -42,10 +42,8 @@ const Collections = () => {
                   Shop the collection
                 </p>
                 <h3 className="mt-1 font-semibold text-white">
-                  <a>
-                    <span className="absolute inset-0" />
-                    {collection?.name}
-                  </a>
+                  <span className="absolute inset-0" />
+                  {collection?.name}
                 </h3>
               </div>
             </div>
