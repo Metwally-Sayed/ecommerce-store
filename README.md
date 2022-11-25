@@ -13,3 +13,4 @@
 ### Nice to Have:
 - [ ] Stripe Integration (Accept money)
 - [ ] Auth
+# ecommerce-store
