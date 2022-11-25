@@ -14,7 +14,6 @@ export interface Product {
   description?: string,
   trending?: string | boolean
   options?: string
-  collections: Collection
 }
 
 
