@@ -133,6 +133,8 @@ export default function ShoppingCartDrawer({ open, setOpen }: props) {
                                             image: cartItem.image,
                                             imageAlt: cartItem.imageAlt,
                                             quantity: +value,
+                                            productImages:
+                                              cartItem.productImages,
                                           }
 
                                           addHandler(order)
@@ -177,7 +179,6 @@ export default function ShoppingCartDrawer({ open, setOpen }: props) {
                         >
                           Checkout
                         </Link>
-
                       </div>
                       <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
                         <p>
