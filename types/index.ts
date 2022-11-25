@@ -1,4 +1,5 @@
 export interface Product {
+  productImages: any
   id: string
   name: string
   href: string
@@ -6,13 +7,14 @@ export interface Product {
   highlights?: string[]
   price: number
   availableQty: number
-  productImages?: Image[]
+  images?: Image[]
   image: string
   imageAlt: string
   collectionsId?: string,
   description?: string,
   trending?: string | boolean
   options?: string
+  collections: Collection
 }
 
 

@@ -5,8 +5,8 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from 'redux/features/cartSlice'
-import { useAppSelector } from 'redux/hooks'
-import { Product } from 'types'
+import { extractSheets } from 'spreadsheet-to-json'
+import { Image, Collection, Product } from 'types'
 
 // const products: Product = {
 //   name: 'Basic Tee 6-Pack',
@@ -311,14 +311,27 @@ function ProductPage({ product }: { product: Product }) {
 export default ProductPage
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await fetch('http://localhost:3000/api/hello')
-  const data = await res.json()
-  const paths = data.map((product: Product) => {
+  let productData: Product[]
+  await extractSheets(
+    {
+      // my google spreadhsheet key
+      spreadsheetKey: '1tBKcuCiJc5A7i3jWXKDIQYsR1zJFYPG4tZT-QTioWCk',
+      // my google oauth credentials or API_KEY
+      credentials: require('../../product-360416-2ba1dc1ac4a2.json'),
+      // optional: names of the sheets i wanted to extract
+      sheetsToExtract: ['Products', 'images'],
+    },
+    function (err: any, data: { Products: Product[] }) {
+      productData = data.Products
+    }
+  )
+  const paths = productData!.map((product: Product) => {
     return {
-      params: { id: product.id },
+      params: {
+        id: product.id,
+      },
     }
   })
-
   return {
     paths,
     fallback: false,
@@ -327,10 +340,33 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id
+  console.log(id)
+
   const res = await fetch('http://localhost:3000/api/' + id)
-  const data = await res.json()
+  const productData = await res.json()
+  // let productData
+  // extractSheets(
+  //   {
+  //     // my google spreadhsheet key
+  //     spreadsheetKey: '1tBKcuCiJc5A7i3jWXKDIQYsR1zJFYPG4tZT-QTioWCk',
+  //     // my google oauth credentials or API_KEY
+  //     credentials: require('../../product-360416-2ba1dc1ac4a2.json'),
+  //     // optional: names of the sheets i wanted to extract
+  //     sheetsToExtract: ['Products', 'images'],
+  //   },
+  //   function (err: any, data: { Products: Product[]; images: Image[] }) {
+  //     let product = data.Products.find((product: Product) => +product.id === +!id)
+  //     let productImages = data.images.filter(
+  //       (image: Image) => +image.productId === +!id
+  //     )
+  //     productData = {
+  //       ...product,
+  //       ...productImages,
+  //     }
+  //   }
+  // )
 
   return {
-    props: { product: data },
+    props: { product: productData },
   }
 }
