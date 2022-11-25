@@ -7,7 +7,6 @@ export interface Product {
   highlights?: string[]
   price: number
   availableQty: number
-  // images?: Image[]
   image: string
   imageAlt: string
   collectionsId?: string,
@@ -49,4 +48,8 @@ export type AppStateType = {
 export type Page = {
   name: string;
   href: string;
+}
+export type Navigation = Product & {
+  categories: Category[]
+
 }
