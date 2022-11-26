@@ -109,15 +109,15 @@ function ProductPage({ product }: { product: Product }) {
   //const products = useAppSelector((state) => state.products)
 
   const dispatch = useDispatch()
-  const addHandler = (event: React.FormEvent<HTMLInputElement>) => {
-    event.preventDefault()
-    const dataProduct = {
-      ...product,
-      availableQty: +product.availableQty,
-      quantity: 1,
-    }
-    dispatch(addToCart(dataProduct))
-  }
+  // const addHandler = (event: React.FormEvent<HTMLInputElement>) => {
+  //   event.preventDefault()
+  //   const dataProduct = {
+  //     ...product,
+  //     availableQty: +product.availableQty,
+  //     quantity: 1,
+  //   }
+  //   dispatch(addToCart(dataProduct))
+  // }
   console.log(`product from id page :${product}`)
 
   return (
@@ -194,7 +194,15 @@ function ProductPage({ product }: { product: Product }) {
 
             <form className="mt-10">
               <button
-                onClick={addHandler}
+                onClick={(event: any) => {
+                  event.preventDefault()
+                  const dataProduct = {
+                    ...product,
+                    availableQty: +product.availableQty,
+                    quantity: 1,
+                  }
+                  dispatch(addToCart(dataProduct))
+                }}
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
