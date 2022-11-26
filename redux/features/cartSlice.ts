@@ -32,7 +32,7 @@ export const CartSlice = createSlice({
 
 
     addToCart: (state, action: PayloadAction<CartItem>) => {
-      let itemInCart = state.find(
+      const itemInCart = state.find(
         (product: Product) => product.id === action.payload.id
       )
       if (itemInCart) {

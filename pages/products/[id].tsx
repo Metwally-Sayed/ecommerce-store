@@ -109,18 +109,12 @@ function ProductPage({ product }: { product: Product }) {
   //const products = useAppSelector((state) => state.products)
 
   const dispatch = useDispatch()
-  const addHandler = () => {
+  const addHandler = (event: React.FormEvent<HTMLInputElement>) => {
+    event.preventDefault()
     const dataProduct = {
-      id: product.id,
-      name: product.name,
-      href: '#',
-      price: product.price,
+      ...product,
       availableQty: +product.availableQty,
-      productImages: product.productImages,
-      image: product.image,
-      imageAlt: product.imageAlt,
       quantity: 1,
-      color: product.color,
     }
     dispatch(addToCart(dataProduct))
   }
@@ -200,7 +194,7 @@ function ProductPage({ product }: { product: Product }) {
 
             <form className="mt-10">
               <button
-                onClick={() => addHandler()}
+                onClick={addHandler}
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
