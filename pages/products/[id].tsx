@@ -2,6 +2,7 @@ import { StarIcon } from '@heroicons/react/solid'
 import Layout from 'components/layout'
 import { classNames } from 'lib'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { ParsedUrlQuery } from 'querystring'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from 'redux/features/cartSlice'
@@ -340,7 +341,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: {
+  params?: ParsedUrlQuery
+}) => {
   const id = params?.id
   console.log(id)
 
