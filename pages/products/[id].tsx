@@ -99,8 +99,13 @@ const reviews = {
   ],
 }
 
-function ProductPage({ product }: { product: Product }) {
-  console.log(`product from id page :${product}`)
+interface ProductProps {
+  product: Product
+  productImages: Image[]
+}
+
+function ProductPage({ product }: { product: ProductProps }) {
+  // console.log(`product from id page :${product}`)
 
   const [open, setOpen] = useState(false)
   // const [selectedColor, setSelectedColor] = useState(product.colors[0])
@@ -162,14 +167,14 @@ function ProductPage({ product }: { product: Product }) {
         <div className="mx-auto max-w-2xl px-4 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:py-16">
           <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
             <h1 className="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-              {product.name}
+              {product.product.name}
             </h1>
           </div>
 
           {/* Options */}
           <div className="mt-4 lg:row-span-3 lg:mt-0">
             <h2 className="sr-only">Product information</h2>
-            <p className="text-3xl text-gray-900"> ${+product.price}</p>
+            <p className="text-3xl text-gray-900"> ${+product.product.price}</p>
 
             {/* Reviews */}
             <div className="mt-6">
@@ -198,8 +203,8 @@ function ProductPage({ product }: { product: Product }) {
                 onClick={(event: any) => {
                   event.preventDefault()
                   const dataProduct = {
-                    ...product,
-                    availableQty: +product.availableQty,
+                    ...product.product,
+                    availableQty: +product.product.availableQty,
                     quantity: 1,
                   }
                   dispatch(addToCart(dataProduct))
@@ -218,7 +223,9 @@ function ProductPage({ product }: { product: Product }) {
               <h3 className="sr-only">Description</h3>
 
               <div className="space-y-6">
-                <p className="text-base text-gray-900">{product.description}</p>
+                <p className="text-base text-gray-900">
+                  {product.product.description}
+                </p>
               </div>
             </div>
 
@@ -227,8 +234,10 @@ function ProductPage({ product }: { product: Product }) {
 
               <div className="mt-4">
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  <li key={product.id} className="text-gray-400">
-                    <span className="text-gray-600">{product.highlights}</span>
+                  <li key={product.product.id} className="text-gray-400">
+                    <span className="text-gray-600">
+                      {product.product.highlights}
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -243,7 +252,9 @@ function ProductPage({ product }: { product: Product }) {
               </h2>
 
               <div className="mt-4 space-y-6">
-                <p className="text-sm text-gray-600">{product.description}</p>
+                <p className="text-sm text-gray-600">
+                  {product.product.description}
+                </p>
               </div>
             </section>
           </div>
@@ -335,6 +346,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
       },
     }
   })
+
+  console.log(paths)
+
   return {
     paths,
     fallback: false,
@@ -349,29 +363,29 @@ export const getStaticProps: GetStaticProps = async ({
   const id = params?.id
   console.log(id)
 
-  const res = await fetch('http://localhost:3000/api/' + id)
-  const productData = await res.json()
-  // let productData
-  // extractSheets(
-  //   {
-  //     // my google spreadhsheet key
-  //     spreadsheetKey: '1tBKcuCiJc5A7i3jWXKDIQYsR1zJFYPG4tZT-QTioWCk',
-  //     // my google oauth credentials or API_KEY
-  //     credentials: require('../../product-360416-2ba1dc1ac4a2.json'),
-  //     // optional: names of the sheets i wanted to extract
-  //     sheetsToExtract: ['Products', 'images'],
-  //   },
-  //   function (err: any, data: { Products: Product[]; images: Image[] }) {
-  //     let product = data.Products.find((product: Product) => +product.id === +!id)
-  //     let productImages = data.images.filter(
-  //       (image: Image) => +image.productId === +!id
-  //     )
-  //     productData = {
-  //       ...product,
-  //       ...productImages,
-  //     }
-  //   }
-  // )
+  // const res = await fetch('/api/' + id)
+  // const productData = await res.json()
+
+  let productData
+  await extractSheets(
+    {
+      // my google spreadhsheet key
+      spreadsheetKey: '1tBKcuCiJc5A7i3jWXKDIQYsR1zJFYPG4tZT-QTioWCk',
+      // my google oauth credentials or API_KEY
+      credentials: require('../../product-360416-2ba1dc1ac4a2.json'),
+      // optional: names of the sheets i wanted to extract
+      sheetsToExtract: ['Products', 'images'],
+    },
+    function (err: any, data: { Products: Product[]; images: Image[] }) {
+      let product = data.Products.find((product: Product) => product.id === id)
+      let productImages = data.images.filter(
+        (image: Image) => image.productId === id
+      )
+
+      productData = { product, productImages }
+    }
+  )
+  console.log(productData)
 
   return {
     props: { product: productData },

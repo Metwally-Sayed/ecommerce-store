@@ -7,7 +7,7 @@ import axios from 'axios'
 const Collections = () => {
   const dispatch = useAppDispatch()
   const getCollections = async () => {
-    const collections = await axios.get('http://localhost:3000/api/collections')
+    const collections = await axios.get('/api/collections')
     dispatch(getAllCollections(collections.data))
   }
   const collectionData = useAppSelector((state) => state.collection)

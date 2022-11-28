@@ -32,7 +32,7 @@ export default function Example() {
 
   const sendData = async (data: any) => {
     try {
-      const sentdata = await axios.post('http://localhost:3000/api/order', data)
+      const sentdata = await axios.post('/api/order', data)
     } catch (error) {
       console.log(error)
     }
