@@ -324,38 +324,38 @@ function ProductPage({ product }: { product: ProductProps }) {
 
 export default ProductPage
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  let productData: Product[]
-  await extractSheets(
-    {
-      // my google spreadhsheet key
-      spreadsheetKey: '1tBKcuCiJc5A7i3jWXKDIQYsR1zJFYPG4tZT-QTioWCk',
-      // my google oauth credentials or API_KEY
-      credentials: require('../../product-360416-2ba1dc1ac4a2.json'),
-      // optional: names of the sheets i wanted to extract
-      sheetsToExtract: ['Products', 'images'],
-    },
-    function (err: any, data: { Products: Product[] }) {
-      productData = data.Products
-    }
-  )
-  const paths = productData!.map((product: Product) => {
-    return {
-      params: {
-        id: product.id,
-      },
-    }
-  })
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   let productData: Product[]
+//   await extractSheets(
+//     {
+//       // my google spreadhsheet key
+//       spreadsheetKey: '1tBKcuCiJc5A7i3jWXKDIQYsR1zJFYPG4tZT-QTioWCk',
+//       // my google oauth credentials or API_KEY
+//       credentials: require('../../product-360416-2ba1dc1ac4a2.json'),
+//       // optional: names of the sheets i wanted to extract
+//       sheetsToExtract: ['Products', 'images'],
+//     },
+//     function (err: any, data: { Products: Product[] }) {
+//       productData = data.Products
+//     }
+//   )
+//   const paths = productData!.map((product: Product) => {
+//     return {
+//       params: {
+//         id: product.id,
+//       },
+//     }
+//   })
 
-  console.log(paths)
+//   console.log(paths)
 
-  return {
-    paths,
-    fallback: false,
-  }
-}
+//   return {
+//     paths,
+//     fallback: false,
+//   }
+// }
 
-export const getStaticProps: GetStaticProps = async ({
+export const getServerSideProps = async ({
   params,
 }: {
   params?: ParsedUrlQuery
